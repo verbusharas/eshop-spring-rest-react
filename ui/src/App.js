@@ -11,6 +11,7 @@ import Uncontrolled from "./components/excercise/Uncontrolled"
 import Controlled from "./components/excercise/Controlled";
 import Effect from "./components/excercise/Effect";
 import LoginForm from "./components/excercise/LoginForm";
+import ProductForm from "./components/ProductForm";
 
 function App() {
     return (
@@ -24,7 +25,8 @@ function App() {
             {/*<Controlled/>*/}
             {/*<Uncontrolled/>*/}
             {/*<Effect/>*/}
-            <LoginForm/>
+            {/*<LoginForm/>*/}
+            <ProductForm/>
         </div>
     );
 }
