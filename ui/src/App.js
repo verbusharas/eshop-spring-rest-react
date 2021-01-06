@@ -12,6 +12,7 @@ import Controlled from "./components/excercise/Controlled";
 import Effect from "./components/excercise/Effect";
 import LoginForm from "./components/excercise/LoginForm";
 import ProductForm from "./components/ProductForm";
+import ProductFromWithFormik from "./components/ProductFromWithFormik";
 
 function App() {
     return (
@@ -26,7 +27,10 @@ function App() {
             {/*<Uncontrolled/>*/}
             {/*<Effect/>*/}
             {/*<LoginForm/>*/}
+            <hr/>
             <ProductForm/>
+            <hr/>
+            <ProductFromWithFormik/>
         </div>
     );
 }
