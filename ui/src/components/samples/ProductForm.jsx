@@ -1,5 +1,5 @@
 import {useState} from "react";
-import PropsState from "./PropsState";
+import PropsState from "../PropsState";
 
 export default () => {
     const [product, setProduct] = useState({name: "", inStock: ""});
