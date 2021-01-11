@@ -17,4 +17,12 @@ public class ExceptionHandlers {
         return new ErrorResponse(exception.getMessage(), LocalDateTime.now());
     }
 
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(FileNotFoundException.class)
+    public ErrorResponse handleFileNotFoundException(FileNotFoundException exception) {
+        // TODO: logging
+        return new ErrorResponse(exception.getMessage(), LocalDateTime.now());
+    }
+
 }

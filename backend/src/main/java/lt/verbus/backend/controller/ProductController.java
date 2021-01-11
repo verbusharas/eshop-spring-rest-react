@@ -1,18 +1,23 @@
 package lt.verbus.backend.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
+import lt.verbus.backend.controller.dto.ProductDTO;
 import lt.verbus.backend.service.ProductService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/products")
 @Api(tags = "This controller is responsible for product interactions")
 public class ProductController {
 
@@ -22,14 +27,30 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
-    private List<String> getAllProducts() {
-        return List.of("Produktas1", "Produktas2");
+    @GetMapping("/{id}")
+    private ProductDTO getProduct(@PathVariable Long id) {
+        return productService.getProductById(id);
     }
 
-    @PostMapping("/{name}")
-    private String addProduct(@PathVariable @ApiParam("Produkto pavadinimas") String name) {
-        return name;
+    @GetMapping
+    private List<ProductDTO> getAllProducts() {
+        return new ArrayList<>();
+        //TODO: implement
+    }
+
+    @PostMapping
+    private ProductDTO addProduct(@RequestBody @Valid ProductDTO productDTO) {
+        return productService.createProduct(productDTO);
+    }
+
+    @PutMapping
+    private ProductDTO updateProduct(@RequestBody @Valid ProductDTO productDTO) {
+        return productService.updateProduct(productDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    private void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 
 
