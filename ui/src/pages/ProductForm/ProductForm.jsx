@@ -26,8 +26,8 @@ export default () => {
             console.log("formikHelpers", formikHelpers);
 
             setTimeout( () => {
-                formikHelpers.setSubmitting(false);
                 alert(JSON.stringify(values));
+                formikHelpers.setSubmitting(false);
             }, 1000);
         }}
         validationSchema={validationSchema}
