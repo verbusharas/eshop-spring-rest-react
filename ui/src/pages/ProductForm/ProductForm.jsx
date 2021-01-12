@@ -1,6 +1,10 @@
 import {Form, Formik, Field, ErrorMessage} from "formik";
 import PropsState from "../../components/PropsState";
 import * as Yup from "yup";
+import {addProduct} from "../../api/productsApi";
+import {useHistory} from "react-router-dom";
+
+
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -18,19 +22,25 @@ const validationSchema = Yup.object().shape({
         })
 });
 
+
 export default () => {
+
+    const history = useHistory();
+
+    const handleOnSubmit = (formValues, formikHelpers) => {
+        addProduct(formValues)
+            .then(response => {
+                history.push("/products");
+                console.log("Created Product and Returned Response: ", response);
+            }).finally(() => {
+            formikHelpers.setSubmitting(false);
+        })
+    }
+
     return (
         <Formik initialValues={{name: "", inStock: "", price: "", description: ""}}
-        onSubmit={(values, formikHelpers)=> {
-            console.log("values", values);
-            console.log("formikHelpers", formikHelpers);
-
-            setTimeout( () => {
-                alert(JSON.stringify(values));
-                formikHelpers.setSubmitting(false);
-            }, 1000);
-        }}
-        validationSchema={validationSchema}
+                onSubmit={handleOnSubmit}
+                validationSchema={validationSchema}
         >
             {(props) => (
                 <>
@@ -64,7 +74,8 @@ export default () => {
                             <ErrorMessage name="description" component="small" className="form-text text-danger"/>
                         </div>
 
-                        <button type="submit" className="btn btn-primary mt-2" disabled={props.isSubmitting}>Save</button>
+                        <button type="submit" className="btn btn-primary mt-2" disabled={props.isSubmitting}>Save
+                        </button>
                     </Form>
                 </>
             )}

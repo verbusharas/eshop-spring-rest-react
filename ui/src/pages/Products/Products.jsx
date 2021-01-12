@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {fetchProducts} from "../../api/productsApi"
+import Button from "@material-ui/core/Button";
+import {deleteProduct, fetchProducts} from "../../api/productsApi"
+import ProductsTable from "./ProductsTable";
 
 
 export default () => {
@@ -9,26 +11,42 @@ export default () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setTimeout(() => {
-            fetchProducts().then(response => {
-                setProducts(response.data)
-                setIsLoading(false)
-                console.log(response)
-            })
-        }, 2000)
+        loadAllProducts()
     }, []);
+
+    const loadAllProducts = () => {
+        setIsLoading(true);
+        fetchProducts().then(response => {
+            setProducts(response.data)
+        }).finally(() => {
+            setIsLoading(false);
+        })
+    }
+
+    const handleDeleteClick = (id) => {
+        setIsLoading(true);
+        deleteProduct(id)
+            .then(() => {
+                loadAllProducts();
+            }).finally(() => {
+            setIsLoading(false);
+        })
+    }
 
     return (
         <>
             <h1>Products Page</h1>
-            {isLoading ?
-                (
-                    <div className="spinner-border" role="status"/>
-                ) :
-                <h2>{JSON.stringify(products)}</h2>
+            {
+                isLoading ? <div className="spinner-border" role="status"/> :
+                    <ProductsTable
+                        products={products}
+                        handleDeleteClick={handleDeleteClick}
+                    />
             }
+
+
             <Link to="/products/new">
-                <button type="button" className="btn btn-primary">Sukurti produktą</button>
+                <Button type="button" variant="contained" color="primary">Sukurti produkta</Button>
             </Link>
         </>
     )
