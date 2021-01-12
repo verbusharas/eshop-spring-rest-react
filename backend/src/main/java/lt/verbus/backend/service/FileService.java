@@ -19,6 +19,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -52,7 +54,8 @@ public class FileService {
     public UploadedFile uploadFile(MultipartFile file) {
 
         String fileName = validateFile(file);
-        String uniqueName = UUID.randomUUID().toString();
+
+        String uniqueName = String.valueOf(LocalDateTime.now().getNano()).concat("_").concat(fileName);
 
         Path targetLocation = this.storageLocation.resolve(uniqueName);
 
@@ -99,7 +102,7 @@ public class FileService {
         UploadedFile uploadedFile = uploadedFileRepository.getByUniqueName(fileName)
                 .orElseThrow(() -> new FileNotFoundException("File was not found!"));
 
-        Path fileLocation = storageLocation.resolve(fileName);
+        Path fileLocation = storageLocation.resolve(uploadedFile.getUniqueName());
         try {
             Resource storedFile = new UrlResource(fileLocation.toUri());
             if (storedFile.exists()) {
