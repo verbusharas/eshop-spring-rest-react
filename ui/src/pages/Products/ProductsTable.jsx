@@ -6,12 +6,16 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
+import {useContext} from "react";
+import {CartContext} from "../../App";
+import {Box} from "@material-ui/core";
 
 const ProductTable = (props) => {
     const {products, handleDeleteClick} = props;
+    const {addProduct} = useContext(CartContext);
     return (
         <TableContainer>
-            <Table >
+            <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">#</TableCell>
@@ -34,9 +38,20 @@ const ProductTable = (props) => {
                                 <TableCell align="center">{p.price}</TableCell>
                                 <TableCell align="center">
                                     <Button
+                                        color="primary"
+                                        size="small"
+                                        onClick={() => addProduct({
+                                            id: p.id,
+                                            name: p.name,
+                                            price: p.price
+                                        })}
+
+                                    >Add To Cart</Button>
+
+                                    <Button
                                         variant="outlined"
                                         color="secondary"
-                                        size={"small"}
+                                        size="small"
                                         onClick={() => handleDeleteClick(p.id)}
                                     >Delete</Button>
                                 </TableCell>
@@ -46,37 +61,6 @@ const ProductTable = (props) => {
                 </TableBody>
             </Table>
         </TableContainer>
-        // <table className="table">
-        //     <thead className="thead-dark">
-        //     <tr>
-        //         <th scope="col">#</th>
-        //         <th scope="col">Name</th>
-        //         <th scope="col">Description</th>
-        //         <th scope="col">Price</th>
-        //         <th scope="col">In Stock</th>
-        //         <th scope="col">Actions</th>
-        //     </tr>
-        //     </thead>
-        //     <tbody>
-        //     {
-        //         products.map(p =>
-        //             (
-        //                 <tr key={p.id}>
-        //                     <th scope="row">{p.id}</th>
-        //                     <td>{p.name}</td>
-        //                     <td>{p.description}</td>
-        //                     <td>{p.price}</td>
-        //                     <td>{p.inStock}</td>
-        //                     <th>
-        //                         <Button variant="outlined" color="secondary" onClick={() => handleDeleteClick(p.id)}>Delete</Button>
-        //                         {/*<button className="btn btn-danger" onClick={() => handleDeleteClick(p.id)}>Delete product</button>*/}
-        //                     </th>
-        //                 </tr>
-        //             )
-        //         )
-        //     }
-        //     </tbody>
-        // </table>
     )
 }
 
@@ -88,7 +72,7 @@ ProductTable.propTypes = {
             description: PropTypes.string.isRequired,
             inStock: PropTypes.number.isRequired,
             price: PropTypes.number.isRequired,
-            })
+        })
     ).isRequired,
     handleDeleteClick: PropTypes.func.isRequired
 }

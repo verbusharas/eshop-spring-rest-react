@@ -3,6 +3,8 @@ import HomePage from "../../pages/HomePage/HomePage";
 import Products from "../../pages/Products/Products";
 import About from "../../pages/About/About";
 import ProductForm from "../../pages/ProductForm/ProductForm";
+import Cart from "../../pages/Cart/Cart";
+import NotFound from "../../pages/NotFound/NotFound";
 
 export default () => (
     <main className="container">
@@ -18,6 +20,12 @@ export default () => (
             </Route>
             <Route exact path="/about">
                 <About/>
+            </Route>
+            <Route exact path="/cart">
+                <Cart/>
+            </Route>
+            <Route  path="*">
+                <NotFound/>
             </Route>
         </Switch>
     </main>
