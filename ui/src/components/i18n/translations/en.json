@@ -1,0 +1,19 @@
+{
+  "common": {
+    "hello": "Welcome to our shop!"
+  },
+  "products": {
+    "totalProductsDesc": "Total products in the store: {{total}}",
+    "button-create-product": "Create Product",
+    "link-products": "Products",
+    "link-about": "About",
+    "button-login": "Login",
+    "heading-products-list": "List Of Products",
+    "table-product-name": "Name",
+    "table-product-description" : "Description",
+    "table-product-in-stock": "In Stock",
+    "table-product-price": "Price",
+    "table-product-actions": "Actions",
+    "copyright-text" : "All Rights Reserved"
+  }
+}

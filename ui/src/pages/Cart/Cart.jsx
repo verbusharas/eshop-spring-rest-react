@@ -6,10 +6,16 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Button from "@material-ui/core/Button";
 import TableContainer from "@material-ui/core/TableContainer";
+
 import {CartContext} from "../../App";
+import {useDispatch, useSelector} from "react-redux";
+import {removeFromCart} from "../../store/slices/cartSlice";
 
 export default () => {
-    const {products, removeProduct} = useContext(CartContext);
+    // const {products, removeProduct} = useContext(CartContext);
+    const products = useSelector(state => state.cart)
+    const dispatch = useDispatch()
+
     return (
         <TableContainer>
             <Table>
@@ -33,7 +39,7 @@ export default () => {
                                         variant="outlined"
                                         color="secondary"
                                         size="small"
-                                        onClick={() => removeProduct(p.id)}
+                                        onClick={() => dispatch(removeFromCart(p.id))}
                                     >Remove From Cart</Button>
                                 </TableCell>
                             </TableRow>

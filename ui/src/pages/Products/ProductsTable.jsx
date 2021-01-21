@@ -6,24 +6,33 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
+import React from "react";
 import {useContext} from "react";
 import {CartContext} from "../../App";
 import {Box} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
+import {addToCart} from "../../store/slices/cartSlice";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 const ProductTable = (props) => {
-    const {products, handleDeleteClick} = props;
-    const {addProduct} = useContext(CartContext);
+    const {products, handleDeleteClick, addToCart} = props;
+
+    // === CONTEXT ===
+    // const {addProduct} = useContext(CartContext);
+    const {t} = useTranslation();
+
     return (
         <TableContainer>
             <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">#</TableCell>
-                        <TableCell align="center">Product name</TableCell>
-                        <TableCell align="center">Description</TableCell>
-                        <TableCell align="center">In Stock</TableCell>
-                        <TableCell align="center">Price</TableCell>
-                        <TableCell align="center">Actions</TableCell>
+                        <TableCell align="center">{t("table-product-name")}</TableCell>
+                        <TableCell align="center">{t("table-product-description")}</TableCell>
+                        <TableCell align="center">{t("table-product-in-stock")}</TableCell>
+                        <TableCell align="center">{t("table-product-price")}</TableCell>
+                        <TableCell align="center">{t("table-product-actions")}</TableCell>
                         <TableCell align="center"/>
                     </TableRow>
                 </TableHead>
@@ -32,6 +41,7 @@ const ProductTable = (props) => {
                         products.map(p => (
                             <TableRow key={p.id}>
                                 <TableCell align="center">{p.id}</TableCell>
+                                <TableCell><Link to={`/products/${p.id}`}>{p.name}</Link></TableCell>
                                 <TableCell align="center">{p.name}</TableCell>
                                 <TableCell align="center">{p.description}</TableCell>
                                 <TableCell align="center">{p.inStock}</TableCell>
@@ -40,7 +50,7 @@ const ProductTable = (props) => {
                                     <Button
                                         color="primary"
                                         size="small"
-                                        onClick={() => addProduct({
+                                        onClick={() => addToCart({
                                             id: p.id,
                                             name: p.name,
                                             price: p.price
@@ -74,7 +84,12 @@ ProductTable.propTypes = {
             price: PropTypes.number.isRequired,
         })
     ).isRequired,
-    handleDeleteClick: PropTypes.func.isRequired
+    handleDeleteClick: PropTypes.func.isRequired,
+    addToCart: PropTypes.func
 }
 
-export default ProductTable;
+const mapDispatchToProps = {
+    addToCart
+}
+
+export default connect(null, mapDispatchToProps)(ProductTable);

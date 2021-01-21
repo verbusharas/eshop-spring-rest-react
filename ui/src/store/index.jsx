@@ -1,9 +1,19 @@
 import {configureStore} from "@reduxjs/toolkit";
-import cart from "./slices/cartSlice"
+import cart, {loadCartFromStorage, subscribeToCartChanges} from "./slices/cartSlice"
+import {logger} from "redux-logger";
 
-export default (initialState) => configureStore({
+
+export default (initialState) => {
+
+    const store = configureStore({
         reducer: {
-            cart,
+            cart
         },
-    }
-)
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+        preloadedState: {cart: loadCartFromStorage(), ...initialState}
+
+    });
+    subscribeToCartChanges(store);
+
+    return store;
+}

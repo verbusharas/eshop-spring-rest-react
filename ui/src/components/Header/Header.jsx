@@ -1,10 +1,22 @@
+import {
+    AppBar,
+    CssBaseline,
+    Link,
+    Toolbar,
+    Typography,
+    Badge,
+    IconButton,
+    makeStyles,
+    MenuItem
+} from "@material-ui/core";
 import {NavLink, Link as RouterLink} from "react-router-dom";
-import {Badge, IconButton, makeStyles} from "@material-ui/core";
-import {AppBar, CssBaseline, Link, Toolbar, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import React, {useContext} from "react";
 import {CartContext} from "../../App";
+import {useTranslation} from "react-i18next";
+import Menu from '@material-ui/core/Menu';
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -52,9 +64,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default () => {
+const Header = ({productCount}) => {
+
+    // i18n -> ----
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const setLanguageAndClose = (langCode) => {
+        i18n.changeLanguage(langCode);
+        setAnchorEl(null);
+    }
+
+    const {t, i18n} = useTranslation();
+    // i18n <- -----
+
     const classes = useStyles();
-    const {products} = useContext(CartContext);
+
+    // CONTEXT -------
+    // const {products} = useContext(CartContext);
+
     return (
         <header>
             <CssBaseline/>
@@ -64,19 +99,32 @@ export default () => {
                         ePardė
                     </Typography>
                     <nav>
-                        <Link className={classes.link} component={NavLink} to="/products">Products</Link>
-                        <Link className={classes.link} component={NavLink} to="/about">About</Link>
+                        <Link className={classes.link} component={NavLink} to="/products">{t("link-products")}</Link>
+                        <Link className={classes.link} component={NavLink} to="/about">{t("link-about")}</Link>
                         <RouterLink to="/cart">
                             <IconButton aria-label="cart">
-                                <Badge badgeContent={products.length} color="secondary">
+                                <Badge badgeContent={productCount} color="secondary">
                                     <ShoppingCartIcon/>
                                 </Badge>
                             </IconButton>
                         </RouterLink>
                     </nav>
+                    <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                        {i18n.language}
+                    </Button>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={() => setLanguageAndClose("lt")}>LT</MenuItem>
+                        <MenuItem onClick={() => setLanguageAndClose("en")}>EN</MenuItem>
+                    </Menu>
 
                     <Button href="#" color="primary" variant="outlined" className={classes.link}>
-                        Login
+                        {t("button-login")}
                     </Button>
 
                 </Toolbar>
@@ -84,3 +132,10 @@ export default () => {
         </header>
     )
 }
+
+const mapStateToProps = ({cart}) => ({
+    productCount: cart.length
+})
+
+
+export default connect(mapStateToProps, null)(Header);

@@ -1,0 +1,19 @@
+{
+  "common": {
+    "hello": "Sveiki atvyke i mano osom parduotuve!"
+  },
+  "products": {
+    "totalProductsDesc": "Šioje parduotuvėje yra {{total}} produktų",
+    "button-create-product": "Sukurti Produktą",
+    "link-products": "Produktai",
+    "link-about": "Apie",
+    "button-login": "Prisijungti",
+    "heading-products-list": "Produktų Sąrašas",
+    "table-product-name": "Pavadinimas",
+    "table-product-description" : "Aprašymas",
+    "table-product-in-stock": "Likutis",
+    "table-product-price": "Kaina",
+    "table-product-actions": "Veiksmai",
+    "copyright-text" : "Visos teisės saugomos"
+  }
+}

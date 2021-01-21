@@ -3,12 +3,15 @@ import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import {deleteProduct, fetchProducts} from "../../api/productsApi"
 import ProductsTable from "./ProductsTable";
+import {useTranslation} from "react-i18next";
 
 
 export default () => {
 
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         loadAllProducts()
@@ -44,9 +47,8 @@ export default () => {
                     />
             }
 
-
             <Link to="/products/new">
-                <Button type="button" variant="contained" color="primary">Sukurti produkta</Button>
+                <Button type="button" variant="contained" color="primary">{t("button-create-product")}</Button>
             </Link>
         </>
     )

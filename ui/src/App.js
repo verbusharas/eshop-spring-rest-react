@@ -3,29 +3,36 @@ import Header from "./components/Header";
 import Content from "./components/Content/Content";
 import Footer from "./components/Footer/Footer";
 import React, {useState} from "react";
+import {Provider} from "react-redux";
+import configureStore from "./store";
 
-const CartContext = React.createContext(null);
+// const CartContext = React.createContext(null);
+
+const store = configureStore();
 
 function App() {
-    const [products, setProducts] = useState([]);
+    // const [products, setProducts] = useState([]);
 
-    const cartContextState = {
-        products,
-        addProduct: (product) => setProducts([...products, product]),
-        removeProduct: (id) => setProducts(products.filter((product) => product.id !== id))
-    }
+    // const cartContextState = {
+    //     products,
+    //     addProduct: (product) => setProducts([...products, product]),
+    //     removeProduct: (id) => setProducts(products.filter((product) => product.id !== id))
+    // }
+
+    // <CartContext.Provider value={cartContextState}>
+    // <CartContext.Provider store={store}>
 
     return (
-        <CartContext.Provider value={cartContextState}>
+        <Provider store={store}>
             <Router>
                 <Header/>
                 <Content/>
                 <Footer/>
             </Router>
-        </CartContext.Provider>
+        </Provider>
 
     );
 }
 
-export {CartContext};
+// export {CartContext};
 export default App;
