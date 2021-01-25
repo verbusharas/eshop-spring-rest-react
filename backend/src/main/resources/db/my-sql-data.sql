@@ -31,6 +31,20 @@ VALUES ('Intelligent Wooden Watch', 80, 52.11, 'Color: black, material: Beauty &
        ('Ergonomic Iron Table', 84, 33.7, 'Color: red, material: Outdoors, made in Albania'),
        ('Practical Silk Knife', 60, 97.53, 'Color: turquoise, material: Automotive & Sports, made in Peru');
 
+INSERT INTO USER (id, password, username) VALUES
+(1, '{bcrypt}$2y$12$putkufw4WFK1XrZv1Za/jOdb1z.F.J9M37VidmaxAclCauk4HMdhm', 'user'),
+(2, '{bcrypt}$2y$12$putkufw4WFK1XrZv1Za/jOdb1z.F.J9M37VidmaxAclCauk4HMdhm', 'admin');
+
+INSERT INTO role (id, role_name) VALUES
+(1, 'USER'),
+(2, 'ADMIN');
+
+INSERT INTO user_role (user_id, role_id) VALUES
+(1, 1),
+(2, 2),
+(2, 1);
+
+
 
 # INSERT INTO user (id, username, password, phone, zip, avatar)
 # VALUES (1, 'admin', '{bcrypt}$2y$12$w7I7MEqU245PnWr9l29Qr.RlXMt2nIDyDGakaxYlujlk2v0yQjj6G', '+37060011111', 'LT-01110', 'https://pickaface.net/gallery/avatar/unr_admin_171016_2225_zewhi.png'),
@@ -54,3 +68,6 @@ VALUES ('Intelligent Wooden Watch', 80, 52.11, 'Color: black, material: Beauty &
 #         (3,2),
 #         (4,2),
 #         (5,2);
+
+# user password: password
+# admin password: password

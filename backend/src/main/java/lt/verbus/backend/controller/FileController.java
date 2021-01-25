@@ -32,7 +32,7 @@ public class FileController {
     }
 
     @PostMapping
-    private UploadedFile uploadFile(@RequestParam("document") MultipartFile file) {
+    public UploadedFile uploadFile(@RequestParam("document") MultipartFile file) {
         return fileService.uploadFile(file);
     }
 
@@ -50,7 +50,7 @@ public class FileController {
 
 
     @PutMapping("/{name2}")
-    private String updateFile(@PathVariable String name2) {
+    public String updateFile(@PathVariable String name2) {
         return name2;
     }
 
