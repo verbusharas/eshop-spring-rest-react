@@ -4,11 +4,9 @@ import Content from "./components/Content/Content";
 import Footer from "./components/Footer/Footer";
 import React, {useState} from "react";
 import {Provider} from "react-redux";
-import configureStore from "./store";
+import store from "./store";
 
 // const CartContext = React.createContext(null);
-
-const store = configureStore();
 
 function App() {
     // const [products, setProducts] = useState([]);

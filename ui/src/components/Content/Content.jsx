@@ -6,6 +6,7 @@ import ProductForm from "../../pages/ProductForm/ProductForm";
 import Cart from "../../pages/Cart/Cart";
 import NotFound from "../../pages/NotFound/NotFound";
 import SingleProduct from "../../pages/Products/SingleProduct";
+import Login from "../../pages/Login/Login"
 
 export default () => (
     <main className="container">
@@ -28,6 +29,10 @@ export default () => (
             <Route exact path="/cart">
                 <Cart/>
             </Route>
+            <Route exact path="/login">
+                <Login/>
+            </Route>
+
             <Route path="*">
                 <NotFound/>
             </Route>
