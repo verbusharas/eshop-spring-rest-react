@@ -1,6 +1,6 @@
 import {Field, Form, Formik} from "formik";
 import {login} from "../../api/usersApi";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setJwt, setUserData} from "../../store/slices/userSlice";
 
@@ -8,14 +8,22 @@ export default () => {
 
     const history = useHistory();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const postLogin = (loginData, {setSubmitting}) => {
         setSubmitting(true);
         login(loginData)
-            .then(({data, headers:{authorization}}) => {
+            .then(({data, headers: {authorization}}) => {
                 dispatch(setUserData(data))
                 dispatch(setJwt(authorization))
-                history.push("/")
+
+                const {from} = location.state || {
+                    from: {
+                        pathname: "/"
+                    }
+                }
+
+                history.push(from)
             })
             .finally(() => setSubmitting(false));
 

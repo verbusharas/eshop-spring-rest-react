@@ -7,7 +7,7 @@ import {
     Badge,
     IconButton,
     makeStyles,
-    MenuItem
+    MenuItem,
 } from "@material-ui/core";
 import {NavLink, Link as RouterLink} from "react-router-dom";
 import Button from "@material-ui/core/Button";
@@ -16,7 +16,9 @@ import React, {useContext} from "react";
 import {CartContext} from "../../App";
 import {useTranslation} from "react-i18next";
 import Menu from '@material-ui/core/Menu';
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
+import {removeJwt, removeUserData} from "../../store/slices/userSlice";
+import useUser from "../hooks/useUser";
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -64,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Header = ({productCount}) => {
+const Header = () => {
 
     // i18n -> ----
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -87,8 +89,18 @@ const Header = ({productCount}) => {
 
     const classes = useStyles();
 
+    const productCount = useSelector(state => state.cart.length)
+    const user = useUser();
+    const dispatch = useDispatch();
+
     // CONTEXT -------
     // const {products} = useContext(CartContext);
+
+
+    const logout = () => {
+        dispatch(removeJwt())
+        dispatch(removeUserData())
+    }
 
     return (
         <header>
@@ -101,6 +113,18 @@ const Header = ({productCount}) => {
                     <nav>
                         <Link className={classes.link} component={NavLink} to="/products">{t("link-products")}</Link>
                         <Link className={classes.link} component={NavLink} to="/about">{t("link-about")}</Link>
+                        {
+                            !!user ? (
+                                <>
+                                    <span>{`${user.name} ${user.lastname}`}</span>
+                                    <Link className={classes.link} component={Button} onClick={logout}>Logout</Link>
+                                </>
+                            ) : (
+                                <Button href="/login" color="primary" variant="outlined" className={classes.link}>
+                                    {t("button-login")}
+                                </Button>
+                            )
+                        }
                         <RouterLink to="/cart">
                             <IconButton aria-label="cart">
                                 <Badge badgeContent={productCount} color="secondary">
@@ -123,9 +147,6 @@ const Header = ({productCount}) => {
                         <MenuItem onClick={() => setLanguageAndClose("en")}>EN</MenuItem>
                     </Menu>
 
-                    <Button href="/login" color="primary" variant="outlined" className={classes.link}>
-                        {t("button-login")}
-                    </Button>
 
                 </Toolbar>
             </AppBar>
@@ -133,9 +154,12 @@ const Header = ({productCount}) => {
     )
 }
 
-const mapStateToProps = ({cart}) => ({
-    productCount: cart.length
-})
+export default Header;
 
 
-export default connect(mapStateToProps, null)(Header);
+// const mapStateToProps = ({cart}) => ({
+//     productCount: cart.length
+// })
+
+
+// export default connect(mapStateToProps, null)(Header);

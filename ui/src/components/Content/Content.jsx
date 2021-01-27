@@ -7,6 +7,7 @@ import Cart from "../../pages/Cart/Cart";
 import NotFound from "../../pages/NotFound/NotFound";
 import SingleProduct from "../../pages/Products/SingleProduct";
 import Login from "../../pages/Login/Login"
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export default () => (
     <main className="container">
@@ -17,18 +18,18 @@ export default () => (
             <Route exact path="/products">
                 <Products/>
             </Route>
-            <Route exact path="/products/new">
+            <PrivateRoute exact path="/products/new" roles={["ADMIN"]}>
                 <ProductForm/>
-            </Route>
+            </PrivateRoute>
             <Route path="/products/:id">
                 <SingleProduct/>
             </Route>
             <Route exact path="/about">
                 <About/>
             </Route>
-            <Route exact path="/cart">
+            <PrivateRoute exact path="/cart">
                 <Cart/>
-            </Route>
+            </PrivateRoute>
             <Route exact path="/login">
                 <Login/>
             </Route>
@@ -39,3 +40,7 @@ export default () => (
         </Switch>
     </main>
 )
+
+
+
+

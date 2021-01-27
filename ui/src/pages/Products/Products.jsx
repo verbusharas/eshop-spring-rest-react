@@ -4,12 +4,14 @@ import Button from "@material-ui/core/Button";
 import {deleteProduct, fetchProducts} from "../../api/productsApi"
 import ProductsTable from "./ProductsTable";
 import {useTranslation} from "react-i18next";
+import useUser from "../../components/hooks/useUser";
 
 
 export default () => {
 
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const user = useUser();
 
     const {t} = useTranslation();
 
@@ -46,10 +48,15 @@ export default () => {
                         handleDeleteClick={handleDeleteClick}
                     />
             }
-
-            <Link to="/products/new">
+            {
+                user?.roles.includes("ADMIN") && (
+                <Link to="/products/new">
                 <Button type="button" variant="contained" color="primary">{t("button-create-product")}</Button>
-            </Link>
+                </Link>
+                )
+            }
+
+
         </>
     )
 
