@@ -16,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lt.verbus.backend.entity.User;
@@ -25,13 +26,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final ObjectMapper objectMapper;
     private JwtProvider jwtProvider;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider, ObjectMapper objectMapper) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
         super(authenticationManager);
         this.jwtProvider = jwtProvider;
-        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -44,7 +43,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (Exception e) {
-            //TODO: META ŠITĄ EXCEPTION
             throw new BadCredentialsException("Provided structure was incorrect");
         }
     }
@@ -55,11 +53,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult)
             throws IOException, ServletException {
+
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+
         User user = (User) authResult.getPrincipal();
+
         String jwtToken = jwtProvider.createToken(user);
+
         response.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER_PREFIX + jwtToken);
 
-        objectMapper.writeValue(response.getWriter(), new UserDTO(user));
+        chain.doFilter(request,response);
 
     }
 

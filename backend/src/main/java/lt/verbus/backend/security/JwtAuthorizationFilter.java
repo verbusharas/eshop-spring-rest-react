@@ -31,8 +31,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         //TODO:ŠITAS GRAŽINA NULL!! (FIREWALLED REQUEST??)
         String authorizationHeader = request.getHeader("Authorization");
 
-     if (isNotEmpty(authorizationHeader) && authorizationHeader.startsWith("Bearer ")){
-         String jwt = authorizationHeader.replace("Bearer ", "");
+     if (isNotEmpty(authorizationHeader) && authorizationHeader.startsWith(AUTHORIZATION_HEADER_PREFIX)){
+         String jwt = authorizationHeader.replace(AUTHORIZATION_HEADER_PREFIX, "");
          Authentication authentication = jwtProvider.getAuthentication(jwt);
 
          if (authentication == null) {
@@ -41,9 +41,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
          }
 
          SecurityContextHolder.getContext().setAuthentication(authentication);
-         chain.doFilter(request,response);
-
      }
+        chain.doFilter(request,response);
     }
 
 }

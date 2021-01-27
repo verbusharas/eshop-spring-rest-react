@@ -31,18 +31,18 @@ VALUES ('Intelligent Wooden Watch', 80, 52.11, 'Color: black, material: Beauty &
        ('Ergonomic Iron Table', 84, 33.7, 'Color: red, material: Outdoors, made in Albania'),
        ('Practical Silk Knife', 60, 97.53, 'Color: turquoise, material: Automotive & Sports, made in Peru');
 
-INSERT INTO USER (id, password, username) VALUES
-(1, '{bcrypt}$2y$12$putkufw4WFK1XrZv1Za/jOdb1z.F.J9M37VidmaxAclCauk4HMdhm', 'user'),
-(2, '{bcrypt}$2y$12$putkufw4WFK1XrZv1Za/jOdb1z.F.J9M37VidmaxAclCauk4HMdhm', 'admin');
+INSERT INTO USER (id, password, username, name, lastname)
+VALUES (1, '{bcrypt}$2y$12$putkufw4WFK1XrZv1Za/jOdb1z.F.J9M37VidmaxAclCauk4HMdhm', 'user', 'Paprastas', 'Žmogus'),
+       (2, '{bcrypt}$2y$12$putkufw4WFK1XrZv1Za/jOdb1z.F.J9M37VidmaxAclCauk4HMdhm', 'admin', 'Šarūnas', 'Verbus');
 
-INSERT INTO role (id, role_name) VALUES
-(1, 'USER'),
-(2, 'ADMIN');
+INSERT INTO role (id, role_name)
+VALUES (1, 'USER'),
+       (2, 'ADMIN');
 
-INSERT INTO user_role (user_id, role_id) VALUES
-(1, 1),
-(2, 2),
-(2, 1);
+INSERT INTO user_role (user_id, role_id)
+VALUES (1, 1),
+       (2, 2),
+       (2, 1);
 
 
 

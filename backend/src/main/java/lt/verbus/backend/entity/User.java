@@ -35,6 +35,12 @@ public class User implements UserDetails {
     @Size(min = 3, max = 200)
     private String username;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String lastname;
+
     @Column(nullable=false)
     @Size(min=3)
     @NotBlank
